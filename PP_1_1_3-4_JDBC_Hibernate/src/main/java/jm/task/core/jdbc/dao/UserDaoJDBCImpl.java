@@ -15,7 +15,7 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public void createUsersTable() {
-        String create = "CREATE TABLE IF NOT EXISTS user (id long, name VARCHAR(45), lastname VARCHAR(45), age TINYINT);";
+        String create = "CREATE TABLE IF NOT EXISTS user (id BIGINT, name VARCHAR(45), lastname VARCHAR(45), age TINYINT);";
         try (Statement statement = connection.createStatement()){
             statement.executeUpdate(create);
         } catch (SQLException e) {
@@ -61,8 +61,8 @@ public class UserDaoJDBCImpl implements UserDao {
         String getAll = "SELECT id, name, lastname, age FROM user";
         try (Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery(getAll);
+            User user = new User();
             while (resultSet.next()) {
-                User user = new User();
                 user.setId(resultSet.getLong("id"));
                 user.setName(resultSet.getString("name"));
                 user.setLastName(resultSet.getString("lastname"));
@@ -76,7 +76,7 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public void cleanUsersTable() {
-        String cleanUsers = "DELETE FROM user";
+        String cleanUsers = "TRUNCATE TABLE user";
         try (PreparedStatement preparedStatement = connection.prepareStatement(cleanUsers)) {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
