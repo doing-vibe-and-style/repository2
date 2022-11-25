@@ -1,2 +1,6 @@
 .idea
 target
+test1/*.xml
+*.iml
+resources
+
